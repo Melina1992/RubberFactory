@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
+
+        //Add this custom validation rule.
+        Validator::extend('alpha_underscores', function ($attribute, $value) {
+
+            // This will only accept alpha and underscores.
+            return preg_match('/^[A-Za-z_]+$/', $value);
+        });
+
+        //Add this custom validation rule.
+        Validator::extend('alpha_spaces', function ($attribute, $value) {
+
+            // This will only accept alpha and spaces.
+            return preg_match('/^[\pL\s]+$/u', $value);
+        });
+
+
+
+
+    }
+}
